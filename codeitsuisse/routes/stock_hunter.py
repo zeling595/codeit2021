@@ -55,9 +55,9 @@ def solve_one_input(input):
             else:
                 risk_index = risk_level_array[j] * risk_level_array[j - 1]
             
-            print("i: ", i)
-            print("j: ", j)
-            print("risk_index", risk_index)
+            # print("i: ", i)
+            # print("j: ", j)
+            # print("risk_index", risk_index)
             risk_level = calculate_risk_level(risk_index, grid_depth, grid_key)
             risk_level_array[j] = risk_level
             # risk_level_map[i][j] = risk_index
@@ -70,18 +70,18 @@ def solve_one_input(input):
 
 def calculate_risk_level(risk_index, grid_depth, grid_key):
     risk_level = (risk_index + grid_depth) % grid_key
-    print("risk level: ", risk_level)
+    # print("risk level: ", risk_level)
     return risk_level
 
 def get_risk_denotation(risk_level):
     if risk_level % 3 == 0:
-        print("L")
+        # print("L")
         return "L"
     elif risk_level % 3 == 1:
-        print("M")
+        # print("M")
         return "M"
     else:
-        print("S")
+        # print("S")
         return "S"
 
 def get_cost(s):

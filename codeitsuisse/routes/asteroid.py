@@ -20,6 +20,7 @@ def evaluate_asteroid():
         dic["score"] = score
         dic["origin"] = origin
         result.append(dic)
+    logging.info("result: {}".format(result))
     return jsonify(result)
 
 def calculate_score(sizes):
@@ -32,21 +33,21 @@ def calculate_score(sizes):
         if sizes[i] == sizes[i + 1]:
             block_len += 1
         else:
-            print("-----block_len: ", block_len)
+            # print("-----block_len: ", block_len)
             origin = i - block_len // 2
-            print("i: ", i)
-            print("origin: ", origin)
+            # print("i: ", i)
+            # print("origin: ", origin)
             block_len = 1
             score = expand(origin, sizes, n)
-            print("score: ", score)
+            # print("score: ", score)
             if score > max_score:
                 max_score = score
                 optimal_origin = origin
     # last block
-    print("~~ last")
+    # print("~~ last")
     origin = n - 1 - block_len // 2
     score = expand(origin, sizes, n)
-    print("score: ", score)
+    # print("score: ", score)
     if score > max_score:
         max_score = score
         optimal_origin = origin
@@ -61,11 +62,11 @@ def expand(origin, sizes, n):
     left_size = curr_size
     right_size = curr_size
     while left > 0 and right < n - 1:
-        print("---while loop")
-        print("left: ", left)
-        print("right: ", right)
-        print("curr_size: ", curr_size)
-        print("num_destoryed: ", num_destoryed)
+        # print("---while loop")
+        # print("left: ", left)
+        # print("right: ", right)
+        # print("curr_size: ", curr_size)
+        # print("num_destoryed: ", num_destoryed)
         if sizes[left] == curr_size:
             num_destoryed += 1
             left -= 1

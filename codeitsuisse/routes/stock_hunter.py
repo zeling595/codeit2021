@@ -122,21 +122,21 @@ def dijkstra(src, target, num_row, num_col, matrix):
         if row + 1 < num_row:
             p = (row + 1, col)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row - 1][col], p))
+                heapq.heappush(dist, (matrix[row + 1][col], p))
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                      relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
         # left
         if col - 1 >= 0:
             p = (row, col - 1)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row - 1][col], p))
+                heapq.heappush(dist, (matrix[row][col - 1], p))
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                      relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
         # right
         if col + 1 < num_col:
             p = (row, col + 1)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row - 1][col], p))
+                heapq.heappush(dist, (matrix[row][col + 1], p))
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                      relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
     

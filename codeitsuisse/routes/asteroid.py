@@ -35,42 +35,24 @@ def calculate_score(sizes):
             block_len += 1
         else:
             print("-----block_len: ", block_len)
-            if block_len % 2 == 0:
-                # even, no need expand
-                print("even block")
-                score = get_score(block_len)
-                print("score: ", score)
-                if score > max_score:
-                    max_score = score
-                    optimal_origin = i - block_len // 2
-                block_len = 1
-            else:
-                # odd, expand
-                print("odd block")
-                origin = i - block_len // 2
-                print("origin: ", origin)
-                score = expand(origin, sizes, n, block_len)
-                # print("score: ", score)
-                if score > max_score:
-                    max_score = score
-                    optimal_origin = origin
-                block_len = 1
+            origin = i - block_len // 2
+            print("origin: ", origin)
+            score = expand(origin, sizes, n, block_len)
+            # print("score: ", score)
+            if score > max_score:
+                max_score = score
+                optimal_origin = origin
+            block_len = 1
     # last block
     print("~~ last")
     print("block_len: ", block_len)
-    if block_len % 2 == 0:
-    # even, no need expand
-        score += get_score(block_len)
-        if score > max_score:
-            max_score = score
-            optimal_origin = origin
-    else:
-        origin = n - 1 - block_len // 2
-        score = expand(origin, sizes, n, block_len)
-        print("score: ", score)
-        if score > max_score:
-            max_score = score
-            optimal_origin = origin
+    print("score: ", score)
+    origin = n - 1 - block_len // 2
+    score = expand(origin, sizes, n, block_len)
+    print("score: ", score)
+    if score > max_score:
+        max_score = score
+        optimal_origin = origin
     return max_score, optimal_origin
 
 def expand(origin, sizes, n, block_len):
@@ -78,7 +60,10 @@ def expand(origin, sizes, n, block_len):
     num_destoryed = block_len
     score = get_score(num_destoryed)
     num_destoryed = 0
-    left = origin - block_len // 2
+    if block_len % 2 == 0:
+        left = origin - block_len // 2 + 1
+    else:
+        left = origin - block_len // 2
     right = origin + block_len // 2 
 
     while left > 0 and right < n - 1:

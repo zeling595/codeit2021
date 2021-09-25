@@ -34,9 +34,9 @@ def calculate_score(sizes):
         if sizes[i] == sizes[i + 1]:
             block_len += 1
         else:
-            print("-----block_len: ", block_len)
+            # print("-----block_len: ", block_len)
             origin = i - block_len // 2
-            print("origin: ", origin)
+            # print("origin: ", origin)
             score = expand(origin, sizes, n, block_len)
             # print("score: ", score)
             if score > max_score:
@@ -44,12 +44,10 @@ def calculate_score(sizes):
                 optimal_origin = origin
             block_len = 1
     # last block
-    print("~~ last")
-    print("block_len: ", block_len)
-    print("score: ", score)
+    # print("~~ last")
+    # print("block_len: ", block_len)
     origin = n - 1 - block_len // 2
     score = expand(origin, sizes, n, block_len)
-    print("score: ", score)
     if score > max_score:
         max_score = score
         optimal_origin = origin

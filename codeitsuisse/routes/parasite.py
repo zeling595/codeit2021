@@ -32,7 +32,6 @@ def evaluate_parasite():
         room_ans["room"] = i
         room_ans["p1"] = a
         room_ans["p2"] = b
-        print(a, b)
         room_ans["p3"] = part_3(grid, interestedIndividuals)
         room_ans["p4"] = 1
         ans.append(room_ans) 
@@ -74,8 +73,6 @@ def part_1(grid, interestedIndividuals):
             [row, col] = infected_q.popleft()
             grid[row][col] = INFECTED
             
-            print([row, col])
-
             key = str(row) + "," + str(col)
             if key in infected_time:
                 infected_time[key] = round
@@ -105,7 +102,6 @@ def part_1(grid, interestedIndividuals):
 
 def part_3(grid, interestedIndividuals):
     grid = copy.deepcopy(grid)
-    print("part_3", grid)
     nRows = len(grid)
     nCols = len(grid[0])
 

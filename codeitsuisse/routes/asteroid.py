@@ -10,9 +10,10 @@ logger = logging.getLogger(__name__)
 @app.route('/asteroid', methods=['POST'])
 def evaluate_asteroid():
     data = request.get_json()['test_cases']
+    logging.info("data length {}".format(len(data)))
     logging.info("data sent for evaluation {}".format(data))
     result = []
-    print(data)
+    # print(data)
     for test in data:
         dic = {}
         score, origin = calculate_score(test)
@@ -20,7 +21,7 @@ def evaluate_asteroid():
         dic["score"] = score
         dic["origin"] = origin
         result.append(dic)
-    logging.info("result: {}".format(result))
+    # logging.info("result: {}".format(result))
     return jsonify(result)
 
 def calculate_score(sizes):
@@ -97,8 +98,7 @@ def expand(origin, sizes, n):
                 right += 1
             else:
                 break
-
-    if left > 0 and right >= n - 1:
+    elif left > 0 and right >= n - 1:
         while left > 0:
             if sizes[left] == curr_size:
                 num_destoryed += 1

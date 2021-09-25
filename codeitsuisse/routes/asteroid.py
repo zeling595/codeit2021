@@ -34,80 +34,83 @@ def calculate_score(sizes):
         if sizes[i] == sizes[i + 1]:
             block_len += 1
         else:
-            # print("-----block_len: ", block_len)
-            origin = i - block_len // 2
-            # print("i: ", i)
-            # print("origin: ", origin)
-            block_len = 1
-            score = expand(origin, sizes, n)
-            # print("score: ", score)
-            if score > max_score:
-                max_score = score
-                optimal_origin = origin
+            print("-----block_len: ", block_len)
+            if block_len % 2 == 0:
+                # even, no need expand
+                print("even block")
+                score = get_score(block_len)
+                print("score: ", score)
+                if score > max_score:
+                    max_score = score
+                    optimal_origin = i - block_len // 2
+                block_len = 1
+            else:
+                # odd, expand
+                print("odd block")
+                origin = i - block_len // 2
+                print("origin: ", origin)
+                score = expand(origin, sizes, n, block_len)
+                # print("score: ", score)
+                if score > max_score:
+                    max_score = score
+                    optimal_origin = origin
+                block_len = 1
     # last block
-    # print("~~ last")
-    origin = n - 1 - block_len // 2
-    score = expand(origin, sizes, n)
-    # print("score: ", score)
-    if score > max_score:
-        max_score = score
-        optimal_origin = origin
+    print("~~ last")
+    print("block_len: ", block_len)
+    if block_len % 2 == 0:
+    # even, no need expand
+        score += get_score(block_len)
+        if score > max_score:
+            max_score = score
+            optimal_origin = origin
+    else:
+        origin = n - 1 - block_len // 2
+        score = expand(origin, sizes, n, block_len)
+        print("score: ", score)
+        if score > max_score:
+            max_score = score
+            optimal_origin = origin
     return max_score, optimal_origin
 
-def expand(origin, sizes, n):
-    score = 0
-    num_destoryed = 1
-    left = origin
-    right = origin
-    curr_size = sizes[origin]
-    left_size = curr_size
-    right_size = curr_size
+def expand(origin, sizes, n, block_len):
+    # only odd block len enter
+    num_destoryed = block_len
+    score = get_score(num_destoryed)
+    num_destoryed = 0
+    left = origin - block_len // 2
+    right = origin + block_len // 2 
+
     while left > 0 and right < n - 1:
         # print("---while loop")
         # print("left: ", left)
         # print("right: ", right)
         # print("curr_size: ", curr_size)
         # print("num_destoryed: ", num_destoryed)
-        if sizes[left] == curr_size:
-            num_destoryed += 1
+        if sizes[left - 1] == sizes[right + 1]:
+            # count left
             left -= 1
-        else:
-            left_size = sizes[left]
-            
-        if sizes[right] == curr_size:
-            num_destoryed += 1
             right += 1
+            num_destoryed += 2
+            while left > 0:
+                if sizes[left] == sizes[left - 1]:
+                    num_destoryed += 1
+                    left -= 1
+                else:
+                    break
+            # count right
+            while right < n - 1:
+                if sizes[right] == sizes[right + 1]:
+                    num_destoryed += 1
+                    right += 1
+                else:
+                    break
+            score += get_score(num_destoryed)
+            num_destoryed = 0
         else:
-            right_size = sizes[right]
-        
-        if left_size != curr_size and right_size != curr_size:
-            multipler = get_multiplier(num_destoryed)
-            score += num_destoryed * multipler
-            if left_size == right_size:
-                # continue destroy
-                num_destoryed = 0
-                curr_size = left_size
-            else:
-                # return res for this origin
-                return score
-
-    if left <= 0 and right < n - 1:
-        while right < n - 1:
-            if sizes[right] == curr_size:
-                num_destoryed += 1
-                right += 1
-            else:
-                break
-    elif left > 0 and right >= n - 1:
-        while left > 0:
-            if sizes[left] == curr_size:
-                num_destoryed += 1
-                left -= 1
-            else:
-                break
-    
-    multipler = get_multiplier(num_destoryed)
-    score += num_destoryed * multipler
+            score = get_score(block_len)
+            return score
+  
     return score
 
 def get_multiplier(num):
@@ -117,3 +120,8 @@ def get_multiplier(num):
         return 1.5
     else:
         return 1
+
+def get_score(num):
+    mul = get_multiplier(num)
+    score = num * mul
+    return score

@@ -92,21 +92,33 @@ def get_cost(s):
     else:
         return 1
 
+
+def get_min_point(q, relaxed_matrix):
+    min = sys.maxsize
+    min_ele = (-1, -1)
+    for ele in q:
+        if relaxed_matrix[ele[0]][ele[1]] < min:
+            min = relaxed_matrix[ele[0]][ele[1]]
+            min_ele = ele
+    return min_ele
+
 def dijkstra(src, target, num_row, num_col, matrix):
     
-    dist = []
     # src [0,0]
-    heapq.heappush(dist, (get_cost(matrix[src[0]][src[1]]), src))
+    q = set()
+    q.add(src)
     visited = set()
-    visited.add(src)
 
     relaxed_matrix = [[sys.maxsize for j in range(num_col)] for i in range(num_row)]
     relaxed_matrix[src[0]][src[1]] = 0
 
-    while dist:
-        item = heapq.heappop(dist)
-        curr_cell = item[1]
+    while q:
+        item = get_min_point(q, relaxed_matrix)
+        q.remove(item)
+        # print("item: ", item)
+        curr_cell = item
         if curr_cell[0] == target[0] and curr_cell[1] == target[1]:
+            print(relaxed_matrix)
             return relaxed_matrix[target[0]][target[1]]
         visited.add(curr_cell)
         row = curr_cell[0]
@@ -115,28 +127,38 @@ def dijkstra(src, target, num_row, num_col, matrix):
         if row - 1 >= 0:
             p = (row - 1, col)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row - 1][col], p))
+                # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
-                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                if not p in q:
+                    q.add(p)
         # down
         if row + 1 < num_row:
             p = (row + 1, col)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row + 1][col], p))
+                # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
-                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                if not p in q:
+                    q.add(p)
         # left
         if col - 1 >= 0:
             p = (row, col - 1)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row][col - 1], p))
+                # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
-                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                if not p in q:
+                    q.add(p)
         # right
         if col + 1 < num_col:
             p = (row, col + 1)
             if not p in visited:
-                heapq.heappush(dist, (matrix[row][col + 1], p))
+                # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
-                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                if not p in q:
+                    q.add(p)
+        # print("q: ", q)
+        # print(relaxed_matrix)
     

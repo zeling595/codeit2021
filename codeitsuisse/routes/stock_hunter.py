@@ -118,7 +118,7 @@ def dijkstra(src, target, num_row, num_col, matrix):
         # print("item: ", item)
         curr_cell = item
         if curr_cell[0] == target[0] and curr_cell[1] == target[1]:
-            print(relaxed_matrix)
+            # print(relaxed_matrix)
             return relaxed_matrix[target[0]][target[1]]
         visited.add(curr_cell)
         row = curr_cell[0]
@@ -130,6 +130,7 @@ def dijkstra(src, target, num_row, num_col, matrix):
                 # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    q.add(p)
                 if not p in q:
                     q.add(p)
         # down
@@ -139,6 +140,7 @@ def dijkstra(src, target, num_row, num_col, matrix):
                 # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    q.add(p)
                 if not p in q:
                     q.add(p)
         # left
@@ -148,6 +150,7 @@ def dijkstra(src, target, num_row, num_col, matrix):
                 # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    q.add(p)
                 if not p in q:
                     q.add(p)
         # right
@@ -157,6 +160,7 @@ def dijkstra(src, target, num_row, num_col, matrix):
                 # print("p: ", p)
                 if relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]]) < relaxed_matrix[p[0]][p[1]]:
                     relaxed_matrix[p[0]][p[1]] = relaxed_matrix[curr_cell[0]][curr_cell[1]] + get_cost(matrix[p[0]][p[1]])
+                    q.add(p)
                 if not p in q:
                     q.add(p)
         # print("q: ", q)
